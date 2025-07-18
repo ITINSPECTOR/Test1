@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSD | Contracting • Supplying • Development</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet" />
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+        :root {
+            --gold: #c69747;
+            --dark-gold: #8c6b2e;
+            --steel: #a4a4a4;
+            --black: #1c1c1c;
+            --white: #ffffff;
+            --gray-bg: #f5f5f5;
+            --bg-dark: #121212;
+            --text-dark: #eee;
+            --transition: 0.3s ease-in-out;
+            --scale-factor: 1.05;
+            --bg-gradient: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url("hero.jpg") center center / cover no-repeat;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif;
+            background-color: var(--white);
+            color: var(--black);
+            scroll-behavior: smooth;
+            transition: background-color var(--transition), color var(--transition);
+        }
+
+        body.dark-mode {
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            z-index: 999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            transition: var(--transition);
+        }
+
+        body.dark-mode header {
+            background: rgba(0, 0, 0, 0.85);
+        }
+
+        header img {
+            height: 50px;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--black);
+            font-weight: 600;
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+
+        body.dark-mode nav a {
+            color: var(--text-dark);
+        }
+
+        .toggle-mode, .toggle-language {
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--black);
+            transition: color var(--transition);
+        }
+
+        body.dark-mode .toggle-mode, body.dark-mode .toggle-language {
+            color: var(--text-dark);
+        }
+
+        .toggle-mode:hover, .toggle-language:hover {
+            opacity: 0.8;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--black);
+        }
+
+        body.dark-mode .hamburger {
+            color: var(--text-dark);
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 250px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 70px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: right var(--transition);
+            z-index: 1000;
+        }
+
+        body.dark-mode .mobile-nav {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .mobile-nav.open {
+            right: 0;
+        }
+
+        .mobile-nav a {
+            color: var(--black);
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        body.dark-mode .mobile-nav a {
+            color: var(--text-dark);
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(3px);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 500;
+        }
+
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .hero {
+            width: 100%;
+            height: 100vh;
+            background: var(--bg-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .hero-content {
+            padding: 0 20px;
+            max-width: 900px;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        .hero h1 {
+            font-size: 6rem;
+            color: var(--white);
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-top: 15px;
+        }
+
+        .hero .tagline {
+            font-size: 1.6rem;
+            margin-top: 10px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+        }
+
+        section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--dark-gold);
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--gray-bg);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        body.dark-mode .card {
+            background: #1e1e1e;
+        }
+
+        body.dark-mode .card h3,
+        body.dark-mode .card p,
+        body.dark-mode .about-us h2,
+        body.dark-mode .about-us p,
+        body.dark-mode .message h2,
+        body.dark-mode .message p,
+        body.dark-mode .vision h2,
+        body.dark-mode .vision p,
+        body.dark-mode .footer-content p {
+            color: var(--white);
+        }
+
+        .card:hover {
+            transform: scale(var(--scale-factor));
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .card i {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .contact {
+            text-align: center;
+            padding-top: 40px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        .social-icons li {
+            list-style: none;
+        }
+
+        .social-icons a {
+            display: block;
+            position: relative;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            font-size: 30px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--black);
+            transition: transform var(--transition), opacity var(--transition);
+        }
+
+        body.dark-mode .social-icons a {
+            color: var(--white);
+        }
+
+        .social-icons a span {
+            position: absolute;
+            transition: transform 0.5s;
+        }
+
+        .social-icons a span:nth-child(1),
+        .social-icons a span:nth-child(3) {
+            width: 100%;
+            height: 3px;
+            background: var(--black);
+        }
+
+        body.dark-mode .social-icons a span:nth-child(1),
+        body.dark-mode .social-icons a span:nth-child(3) {
+            background: var(--white);
+        }
+
+        .social-icons a span:nth-child(1) {
+            top: 0;
+            left: 0;
+            transform-origin: right;
+        }
+
+        .social-icons a:hover span:nth-child(1) {
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s;
+        }
+
+        .social-icons a span:nth-child(3) {
+            bottom: 0;
+            left: 0;
+            transform-origin: left;
+        }
+
+        .social-icons a:hover span:nth-child(3) {
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s;
+        }
+
+        .social-icons a span:nth-child(2),
+        .social-icons a span:nth-child(4) {
+            width: 3px;
+            height: 100%;
+            background: var(--black);
+        }
+
+        body.dark-mode .social-icons a span:nth-child(2),
+        body.dark-mode .social-icons a span:nth-child(4) {
+            background: var(--white);
+        }
+
+        .social-icons a span:nth-child(2) {
+            top: 0;
+            left: 0;
+            transform: scale(0);
+            transform-origin: bottom;
+        }
+
+        .social-icons a:hover span:nth-child(2) {
+            transform: scale(1);
+            transform-origin: top;
+            transition: transform 0.5s;
+        }
+
+        .social-icons a span:nth-child(4) {
+            top: 0;
+            right: 0;
+            transform: scale(0);
+            transform-origin: top;
+        }
+
+        .social-icons a:hover span:nth-child(4) {
+            transform: scale(1);
+            transform-origin: bottom;
+            transition: transform 0.5s;
+        }
+
+        .social-icons a.x {
+            color: var(--black);
+        }
+
+        body.dark-mode .social-icons a.x {
+            color: var(--white);
+        }
+
+        .social-icons a.x:hover {
+            color: #000000;
+        }
+
+        .social-icons a.x:hover span {
+            background: #000000;
+        }
+
+        .social-icons a.x svg {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            fill: var(--black);
+        }
+
+        body.dark-mode .social-icons a.x svg {
+            fill: var(--white);
+        }
+
+        .social-icons a.x:hover svg {
+            fill: #000000;
+        }
+
+        .social-icons a.instagram {
+            color: var(--black);
+        }
+
+        body.dark-mode .social-icons a.instagram {
+            color: var(--white);
+        }
+
+        .social-icons a.instagram:hover {
+            color: #c32aa3;
+        }
+
+        .social-icons a.instagram:hover span {
+            background: #c32aa3;
+        }
+
+        .social-icons a.whatsapp {
+            color: var(--black);
+        }
+
+        body.dark-mode .social-icons a.whatsapp {
+            color: var(--white);
+        }
+
+        .social-icons a.whatsapp:hover {
+            color: #25D366;
+        }
+
+        .social-icons a.whatsapp:hover span {
+            background: #25D366;
+        }
+
+        footer {
+            background: linear-gradient(45deg, var(--dark-gold), var(--gold));
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+
+        body.dark-mode footer {
+            background: linear-gradient(45deg, #6b4e1e, #a58336);
+        }
+
+        .footer-content p {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .footer-content a {
+            color: var(--white);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .footer-content a:hover {
+            color: #f0f0f0;
+        }
+
+        .about-us, .message, .vision {
+            background: var(--gray-bg);
+            padding: 60px 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 40px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        body.dark-mode .about-us, body.dark-mode .message, body.dark-mode .vision {
+            background: #1e1e1e;
+        }
+
+        .about-us:hover, .message:hover, .vision:hover {
+            transform: scale(var(--scale-factor));
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-us h2, .message h2, .vision h2 {
+            font-size: 2.5rem;
+            color: var(--dark-gold);
+            margin-bottom: 30px;
+        }
+
+        .about-us p, .message p, .vision p {
+            font-size: 1.2rem;
+            color: #555;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateY(50px); }
+            100% { transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .hamburger { display: block; }
+            .hero h1 { font-size: 3rem; }
+            .hero p { font-size: 1.1rem; }
+            .hero .tagline { font-size: 1.3rem; }
+            .social-icons a { width: 50px; height: 50px; line-height: 50px; font-size: 25px; }
+            .social-icons a.x svg { width: 25px; height: 25px; }
+            .footer-content p { font-size: 1rem; }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <img src="logo.png" alt="شعار الشركة" data-ar="شعار الشركة" data-en="Company Logo" />
+        <nav>
+            <a href="#home" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+            <a href="#services" data-ar="الخدمات" data-en="Services">الخدمات</a>
+            <a href="#contact" data-ar="تواصل" data-en="Contact">تواصل</a>
+            <i class="fas fa-moon toggle-mode" onclick="toggleDarkMode()"></i>
+            <i class="fas fa-language toggle-language" onclick="toggleLanguage()"></i>
+        </nav>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+    </header>
+
+    <div class="mobile-nav" id="mobileNav">
+        <a href="#home" onclick="toggleMenu()" data-ar="الرئيسية" data-en="Home"> الرئيسية</a>
+        <a href="#services" onclick="toggleMenu()" data-ar="الخدمات" data-en="Services">الخدمات</a>
+        <a href="#contact" onclick="toggleMenu()" data-ar="تواصل" data-en="Contact">تواصل</a>
+        <i class="fas fa-moon toggle-mode" onclick="toggleDarkMode()"></i>
+        <i class="fas fa-language toggle-language" onclick="toggleLanguage()"></i>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+    <div class="hero" id="home">
+        <div class="hero-content">
+            <h1 data-ar="CSD" data-en="CSD">CSD</h1>
+            <p class="tagline" data-ar="خدمات - توريد - تطوير الأعمال" data-en="Contracting - Supplying - Development">خدمات - توريد - تطوير الأعمال</p>
+        </div>
+    </div>
+
+    <section id="about-us" class="about-us">
+        <h2 data-ar="من نحن" data-en="About Us">من نحن</h2>
+        <p data-ar="متخصصون في توريد مواد ومعدات المصانع وإيجاد الحلول السريعة لمواجهة المشاكل الطارئة سواء في التوريد أو الخدمات ولدينا اهتمام كبير بتطوير الأعمال وتقديم الاستشارات التقنية" data-en="We specialize in supplying materials and equipment for factories and finding quick solutions to face emergency issues, whether in supply or services, and we have a great interest in business development and technical consultancy">متخصصون في توريد مواد ومعدات المصانع وإيجاد الحلول السريعة لمواجهة المشاكل الطارئة سواء في التوريد أو الخدمات ولدينا اهتمام كبير بتطوير الأعمال وتقديم الاستشارات التقنية</p>
+    </section>
+
+    <section id="services">
+        <h2 class="section-title" data-ar="خدماتنا" data-en="Our Services">خدماتنا</h2>
+        <div class="grid">
+            <div class="card">
+                <i class="fas fa-industry"></i>
+                <h3 data-ar="التوريد الصناعي" data-en="Industrial Supply">التوريد الصناعي</h3>
+                <p data-ar="توريد جميع احتياجات المصانع والمشاريع من مواد ومعدات عالية الجودة." data-en="Supplying all factory and project needs with high-quality materials and equipment.">توريد جميع احتياجات المصانع والمشاريع من مواد ومعدات عالية الجودة.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-truck"></i>
+                <h3 data-ar="اللوجستيات والتوزيع" data-en="Logistics and Distribution">اللوجستيات والتوزيع</h3>
+                <p data-ar="شبكة نقل وتوزيع متكاملة لضمان تسليم سريع وآمن لكافة الشحنات." data-en="An integrated transport and distribution network to ensure fast and secure delivery of all shipments.">شبكة نقل وتوزيع متكاملة لضمان تسليم سريع وآمن لكافة الشحنات.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-building"></i>
+                <h3 data-ar="المقاولات العامة" data-en="General Contracting">المقاولات العامة</h3>
+                <p data-ar="تنفيذ مشاريع بناء وإنشاءات بأعلى معايير السلامة والجودة والموثوقية." data-en="Executing construction and infrastructure projects with the highest standards of safety, quality, and reliability.">تنفيذ مشاريع بناء وإنشاءات بأعلى معايير السلامة والجودة والموثوقية.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="message" class="message">
+        <h2 data-ar="رسالتنا" data-en="Our Message">رسالتنا</h2>
+        <p data-ar="نسعى لتقديم أفضل الحلول والخدمات من خلال الابتكار والجودة، لضمان رضا عملائنا وتحقيق تطلعاتهم." data-en="We strive to provide the best solutions and services through innovation and quality, ensuring customer satisfaction and achieving their aspirations.">نسعى لتقديم أفضل الحلول والخدمات من خلال الابتكار والجودة، لضمان رضا عملائنا وتحقيق تطلعاتهم.</p>
+    </section>
+
+    <section id="vision" class="vision">
+        <h2 data-ar="رؤيتنا" data-en="Our Vision">رؤيتنا</h2>
+        <p data-ar="أن نصبح الخيار الأول للعملاء في كل ما يتعلق بالتوريد الصناعي، اللوجستيات، والمقاولات العامة." data-en="To become the top choice for clients in all matters related to industrial supply, logistics, and general contracting.">أن نصبح الخيار الأول للعملاء في كل ما يتعلق بالتوريد الصناعي، اللوجستيات، والمقاولات العامة.</p>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2 class="section-title" data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</h2>
+        <p data-ar="نحن هنا لخدمتك. تواصل معنا في أي وقت." data-en="We are here to serve you. Contact us anytime.">نحن هنا لخدمتك. تواصل معنا في أي وقت.</p>
+        <ul class="social-icons">
+            <li>
+                <a class="x" href="https://x.com/CSDSupplying" target="_blank" title="X">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
+                    </svg>
+                </a>
+            </li>
+            <li>
+                <a class="instagram" href="https://www.instagram.com/csdsupplying?igsh=Z2VrbGpra3h0MTdn" target="_blank" title="Instagram">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </li>
+            <li>
+                <a class="whatsapp" href="https://wa.me/+966563522807" title="WhatsApp">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <p data-ar="راسلنا عبر الإيميل: <a href='mailto:Aboutcsd@gmail.com'>Aboutcsd@gmail.com</a>" data-en="Contact us via email: <a href='mailto:Aboutcsd@gmail.com'>Aboutcsd@gmail.com</a>">راسلنا عبر الإيميل: <a href='mailto:Aboutcsd@gmail.com'>Aboutcsd@gmail.com</a></p>
+            <p data-ar="© 2025 جميع الحقوق محفوظة لشركة CSD" data-en="© 2025 All rights reserved to CSD Company">© 2025 جميع الحقوق محفوظة لشركة CSD</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('mobileNav');
+            const overlay = document.getElementById('overlay');
+            nav.classList.toggle('open');
+            overlay.classList.toggle('show');
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        function toggleLanguage() {
+            const elements = document.querySelectorAll('[data-en]');
+            const isArabic = document.documentElement.lang === 'ar';
+            document.documentElement.lang = isArabic ? 'en' : 'ar';
+            document.documentElement.dir = isArabic ? 'ltr' : 'rtl';
+            elements.forEach(el => {
+                const arabicText = el.getAttribute('data-ar');
+                const englishText = el.getAttribute('data-en');
+                if (el.tagName === 'IMG') {
+                    el.setAttribute('alt', isArabic ? englishText : arabicText);
+                } else {
+                    el.innerHTML = isArabic ? englishText : arabicText;
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
